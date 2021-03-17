@@ -9,7 +9,8 @@ library(showtext)
 
 font_add(family = "lemonada", regular = "fonts/lemonada/static/Lemonada-Regular.ttf")
 font_add(family = "GOT", regular = "fonts/Game-of-Thrones/Game of Thrones.ttf")
-font_add(family = "Nanum", regular = "fonts/NanumMyeongjo/NanumMyeongjo-Regular.ttf")
+font_add(family = "Nanum", regular = "fonts/NanumMyeongjo/NanumMyeongjo-Regular.ttf",
+         bold = "fonts/NanumMyeongjo/NanumMyeongjo-ExtraBold.ttf")
 font_add(family = "dark11", regular = "fonts/Dark11/DARK11__.ttf")
 font_add(family = "Kalam", regular = "fonts/Kalam/Kalam-Regular.ttf")
 font_add(family = "drakon", regular = "fonts/drakon/drakon.ttf")
@@ -138,8 +139,9 @@ z3 %>% ggplot(aes(date, mentions, colour = candidate)) +
            label = "Election\n2016",
            col = "black",
            hjust = "center",
-           fontface = 3,
-           family = "Ink Free") + 
+           fontface = 2,
+           family = "Ink Free",
+           size = 6) + 
   annotate(geom = "curve", 
            x = as.Date("2016-06-26"), y = 70,
            xend = as.Date("2016-11-06"), yend = 55,
@@ -148,8 +150,9 @@ z3 %>% ggplot(aes(date, mentions, colour = candidate)) +
            label = "Election\n2020",
            col = "black",
            hjust = "center",
-           fontface = 3,
-           family = "Ink Free") + 
+           fontface = 2,
+           family = "Ink Free",
+           size = 6) + 
   annotate(geom = "curve", 
            x = as.Date("2021-02-26"), y = 80,
            xend = as.Date("2020-11-06"), yend = 65,
@@ -158,12 +161,24 @@ z3 %>% ggplot(aes(date, mentions, colour = candidate)) +
            label = "137\nmentions\non February 26\nCohen's Testimony",
            col = "black",
            hjust = "center",
-           fontface = 3,
-           family = "Ink Free") + 
+           fontface = 2,
+           family = "Ink Free",
+           size = 6) + 
   annotate(geom = "curve", 
            x = as.Date("2018-11-01"), y = 70,
            xend = as.Date("2019-02-26"), yend = 80,
-           curvature = 0.4, arrow = arrow(length = unit(2, "mm")))
+           curvature = 0.4, arrow = arrow(length = unit(2, "mm"))) +
+  annotate("label", x=as.Date("2020-08-15"), y = 8, 
+           label = "Trump Free\nDay",
+           col = "black",
+           hjust = "center",
+           fontface = "bold",
+           family = "Nanum",
+           size = 6) + 
+  annotate(geom = "curve", 
+           x = as.Date("2021-01-01"), y = 8,
+           xend = as.Date("2021-03-16"), yend = 2, size = 2,
+           curvature = -0.4, arrow = arrow(length = unit(4, "mm")))
 
  saveRDS(z, "data/all-z-plus-missing")
 
