@@ -178,7 +178,9 @@ z3 %>% ggplot(aes(date, mentions, colour = candidate)) +
   annotate(geom = "curve", 
            x = as.Date("2021-01-01"), y = 8,
            xend = as.Date("2021-03-16"), yend = 2, size = 2,
-           curvature = -0.4, arrow = arrow(length = unit(4, "mm")))
+           curvature = -0.4, arrow = arrow(length = unit(4, "mm"))) -> plot
+
+ggsave(plot = plot, filename = "ev-mentions.png", width = 15, height = 10, units = "cm", )
 
  saveRDS(z, "data/all-z-plus-missing")
 
