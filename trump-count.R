@@ -182,7 +182,7 @@ z3 %>% ggplot(aes(date, mentions, colour = candidate)) +
 
 ggsave(plot = plot, filename = "ev-mentions.png", width = 15, height = 10, units = "cm", )
 
- saveRDS(z, "data/all-z-plus-missing")
+# saveRDS(z, "data/all-z-plus-missing")
 
 
 
