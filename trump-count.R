@@ -13,6 +13,7 @@ font_add(family = "Nanum", regular = "fonts/NanumMyeongjo/NanumMyeongjo-Regular.
 font_add(family = "dark11", regular = "fonts/Dark11/DARK11__.ttf")
 font_add(family = "Kalam", regular = "fonts/Kalam/Kalam-Regular.ttf")
 font_add(family = "drakon", regular = "fonts/drakon/drakon.ttf")
+font_add(family = "Ink Free", regular = "fonts/Ink-Free/ink-free-normal.ttf")
 
 showtext_auto()
 
@@ -101,18 +102,18 @@ date_range_df <- tibble::tibble(start = zoo::as.Date.numeric(date_range_matrix[,
                                 end = zoo::as.Date.numeric(date_range_matrix[, 2]))
 date_breaks <- c(date_range_df$start, date_range_df$end)
 candidate_colours <- c("#bfd200", "#046c9a", "#972D15")
-plot_title <- glue::glue("Daily EV Mentions for <i style= 'font-family: forum; color:{candidate_colours[1]}; font-size: 40px;'>Clinton</i>, ",
+plot_title <- glue::glue("Daily EV Mentions for <i style= 'font-family: forum; color:{candidate_colours[1]}; font-size: 40px;'> Clinton</i>, ",
                          "<i style='font-family: Kalam; color:{candidate_colours[2]}; font-size: 40px;'>Biden</i>, ",
                          "and <b><i style = 'font-family:drakon; color:{candidate_colours[3]}; font-size: 40px;'>Trump</i></b>")
 
 z3 %>% ggplot(aes(date, mentions, colour = candidate)) + 
-  geom_line(aes(y=mentions_7, colour = candidate_7), show.legend = F, size = 1.5) +
+  geom_line(aes(y=mentions_7, colour = candidate_7), show.legend = F, size = 1.2) +
   scale_color_manual(values = c(clinton_7 = candidate_colours[1], 
                                 biden_7 = candidate_colours[2], 
                                 trump_7 = candidate_colours[3])) +
   scale_x_yearqtr(breaks = date_breaks, 
                   lab = format(date_breaks, 
-                               ifelse(month(date_breaks) == 11, "%b\n        %Y", "%b"))) +
+                               ifelse(month(date_breaks) == 08, "%b\n%Y", "%b"))) +
   geom_point(data = z1, aes(y = trump), 
              colour = candidate_colours[3], 
              size = 0.5, 
@@ -128,10 +129,41 @@ z3 %>% ggplot(aes(date, mentions, colour = candidate)) +
   labs(title = plot_title,
        x = "",
        y = "",
-       caption = glue::glue("<i><span style = 'color:{candidate_colours[3]};'> &bull; </span></i>'s are Trump daily counts, lines are 7 day rolling means")) +
+       caption = glue::glue("lines are 7 day rolling means, <i><span style = 'color:{candidate_colours[3]};'> &bull; </span></i>'s are Trump daily counts")) +
   theme(plot.title = element_markdown(size = 28, hjust = 0.5),
         text = element_text(family = "Ink Free", size = 18),
-        plot.caption = element_markdown())
+        plot.caption = element_markdown(),
+        axis.title.x = element_markdown()) +
+  annotate("text", x=as.Date("2016-05-06"), y=70, 
+           label = "Election\n2016",
+           col = "black",
+           hjust = "center",
+           fontface = 3,
+           family = "Ink Free") + 
+  annotate(geom = "curve", 
+           x = as.Date("2016-06-26"), y = 70,
+           xend = as.Date("2016-11-06"), yend = 55,
+           curvature = -0.3, arrow = arrow(length = unit(2, "mm"))) +
+  annotate("text", x=as.Date("2021-04-06"), y=80, 
+           label = "Election\n2020",
+           col = "black",
+           hjust = "center",
+           fontface = 3,
+           family = "Ink Free") + 
+  annotate(geom = "curve", 
+           x = as.Date("2021-02-26"), y = 80,
+           xend = as.Date("2020-11-06"), yend = 65,
+           curvature = 0.3, arrow = arrow(length = unit(2, "mm"))) +
+  annotate("text", x=as.Date("2018-07-15"), y = 70, 
+           label = "137\nmentions\non February 26\nCohen's Testimony",
+           col = "black",
+           hjust = "center",
+           fontface = 3,
+           family = "Ink Free") + 
+  annotate(geom = "curve", 
+           x = as.Date("2018-11-01"), y = 70,
+           xend = as.Date("2019-02-26"), yend = 80,
+           curvature = 0.4, arrow = arrow(length = unit(2, "mm")))
 
  saveRDS(z, "data/all-z-plus-missing")
 
