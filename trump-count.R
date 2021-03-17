@@ -67,13 +67,13 @@ z <- readRDS("data/all-z-plus-missing")
 #                        clinton = NA))) %>%
 #   bind_cols(date = ev_time_period)
 
-
+width <- 21
 
 z1 <- z %>% 
   filter(length > 200) %>% 
-  mutate(trump_7 = rollapply(trump, width=7, mean, na.rm = TRUE, align = "center", fill = NA),
-         biden_7 = rollapply(biden, width=7, mean, na.rm = TRUE, align = "center", fill = NA),
-         clinton_7 = rollapply(clinton, width=7, mean, na.rm = TRUE, align = "center", fill = NA)) %>% 
+  mutate(trump_7 = rollapply(trump, width=width, mean, na.rm = TRUE, align = "center", fill = NA),
+         biden_7 = rollapply(biden, width=width, mean, na.rm = TRUE, align = "center", fill = NA),
+         clinton_7 = rollapply(clinton, width=width, mean, na.rm = TRUE, align = "center", fill = NA)) %>% 
   mutate(trump_7 = ifelse(length < 200, NA, trump_7),
          biden_7 = ifelse(length < 200, NA, biden_7),
          clinton_7 = ifelse(length < 200, NA, clinton_7)) %>% 
@@ -130,7 +130,7 @@ z3 %>% ggplot(aes(date, mentions, colour = candidate)) +
   labs(title = plot_title,
        x = "",
        y = "",
-       caption = glue::glue("lines are 7 day rolling means, <i><span style = 'color:{candidate_colours[3]};'> &bull; </span></i>'s are Trump daily counts")) +
+       caption = glue::glue("lines are {width} day rolling means, <i><span style = 'color:{candidate_colours[3]};'> &bull; </span></i>'s are Trump daily counts")) +
   theme(plot.title = element_markdown(size = 28, hjust = 0.5),
         text = element_text(family = "Ink Free", size = 18),
         plot.caption = element_markdown(),
@@ -178,7 +178,7 @@ z3 %>% ggplot(aes(date, mentions, colour = candidate)) +
   annotate(geom = "curve", 
            x = as.Date("2021-01-01"), y = 8,
            xend = as.Date("2021-03-16"), yend = 2, size = 2,
-           curvature = -0.4, arrow = arrow(length = unit(4, "mm"))) -> plot
+           curvature = -0.4, arrow = arrow(length = unit(4, "mm")))
 
 ggsave(plot = plot, filename = "ev-mentions.png", width = 15, height = 10, units = "cm", )
 
